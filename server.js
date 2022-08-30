@@ -14,16 +14,12 @@ function delay(duration) {
 }
 
 app.get('/', (req, res) => {
-   res.send('Home Page Loaded');
+   res.send(`Home Page Loaded. Process: ${process.pid}`);
 });
 
 app.get('/delay', (req, res) => {
    delay(9000);
-   res.send('Delay Page Loaded');
-});
-
-app.listen(EXPRESS_PORT, () => {
-   console.log(`Listening on API_PORT: ${EXPRESS_PORT} ...`);
+   res.send(`Delay Page Loaded. Process: ${process.pid}`);
 });
 
 async function startServer() {
@@ -33,7 +29,7 @@ async function startServer() {
       const NUM_CPUS = os.cpus().length;
       console.log(`Server has ${NUM_CPUS} logical processors.`);
       for(let cpu = 0; cpu < NUM_CPUS; cpu++) {
-         console.log(`Initializing process: ${cpu}`);
+         console.log(`Initializing Worker ${cpu}`);
          cluster.fork();
       }
    } else {
@@ -44,4 +40,4 @@ async function startServer() {
    }
 }
 
-//startServer();
+startServer();
