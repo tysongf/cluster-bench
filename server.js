@@ -26,6 +26,7 @@ async function startServer() {
    //Master process spawns child processes to run API
    if(cluster.isMaster) {
       //Detect number of CPUs and create child processes
+      //Uses Round-Robin for Horizontal Scaling
       const NUM_CPUS = os.cpus().length;
       console.log(`Server has ${NUM_CPUS} logical processors.`);
       for(let cpu = 0; cpu < NUM_CPUS; cpu++) {
